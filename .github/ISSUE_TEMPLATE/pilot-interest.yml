@@ -1,0 +1,44 @@
+name: Discuss a small rollout pilot
+description: Check fit for an operator-run PHP evidence review; no production data.
+title: "Pilot fit: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is a public fit discussion, not a request for production access or evidence.
+        Do not include credentials, hostnames, addresses, customer names, raw reports or private paths.
+        The isolated lab is free. Any paid continuation needs a separate scope and fee agreement.
+  - type: textarea
+    id: decision
+    attributes:
+      label: What decision are you trying to make?
+      description: Describe the update-verification problem in general terms. No company or customer name is needed.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Optional environment outline
+      description: OS release and PHP deployment type, only if you may share them. Otherwise leave this blank.
+  - type: dropdown
+    id: stage
+    attributes:
+      label: Where would you like to start?
+      options:
+        - Review the sample report first
+        - Run the isolated lab
+        - Discuss a small operator-run pilot
+    validations:
+      required: true
+  - type: textarea
+    id: current_process
+    attributes:
+      label: Existing process and practical constraint
+      description: What do you already use, and what makes trying the lab difficult? A lack of benefit is useful feedback too.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Before submitting
+      options:
+        - label: I reviewed this public request and removed private operational data.
+          required: true

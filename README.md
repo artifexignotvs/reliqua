@@ -25,6 +25,11 @@ Linux amd64, Docker and Python 3.11+ are required. Allow initial image-build tim
 plus a ten-minute trial. See the [method and limits](docs/COMPARISON.md); a setup
 blocker or a finding that your current process is already clearer is useful feedback.
 
+For an example of the deliverable, read the [sample report](docs/SAMPLE_REPORT.md).
+Teams reviewing a small PHP rollout can also discuss an
+[operator-run pilot](docs/PILOT.md). The isolated lab and feedback remain free;
+any paid assistance would be scoped and agreed separately.
+
 ## Try the decision model
 
 Download `reliqua.pyz` and `SHA256SUMS` from the release, then:
