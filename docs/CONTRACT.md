@@ -1,0 +1,7 @@
+# Collector contract (schema 1)
+
+A raw node report has: schema=1, tool_version, node (operator alias), collected_at (UTC ISO), boot_id (kernel boot UUID), scope="visible-proc", processes (list), errors (list of nonsecret stable codes), os {id, version_id}. Each process: pid (int), start_ticks (int), kind (fpm|apache|cgi|embedded|cli|unknown), components (list), errors (list). Components contain: path (local absolute), role (executable|module), state (current|replaced|deleted|unknown), mapped_device (string major:minor hex), mapped_inode(int), disk_device (string), disk_inode(int), sha256 (string if current), package (object or null), errors(list). Package: name, version, status, integrity (match|mismatch|unknown); package source is local trusted dpkg database.
+
+Collector never runs discovered executables, PHP, package maintainer scripts, network requests or restarts. Global denied/transient proc reads appear in errors, so observed access failures prevent completion. Hidden PIDs and differently named static builds can still be invisible; this is bounded heuristic discovery, not complete host coverage. Explicit --pid uses scope="selected-pids"; complete selected set required, not host coverage. CLI does not prove web protection. Container mount namespace != self -> errors namespace_unverified and no package trust. Snapshot is observational, racy and not an attestation.
+
+The assessment, collection, package and fleet modules keep policy evaluation separate from observation.

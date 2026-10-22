@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reliqua"
+version = "0.1.0a1"
+description = "PHP runtime patch evidence and declared-node convergence checks"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Artifex Ignotvs"}]
+classifiers = ["Development Status :: 3 - Alpha", "Environment :: Console", "Operating System :: POSIX :: Linux", "Topic :: Security"]
+
+[project.scripts]
+reliqua = "reliqua.cli:main"
+
+[project.urls]
+Repository = "https://github.com/artifexignotvs/reliqua"
+Issues = "https://github.com/artifexignotvs/reliqua/issues"
+
+[tool.setuptools]
+packages = ["reliqua"]
