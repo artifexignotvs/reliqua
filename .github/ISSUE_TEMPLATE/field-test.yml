@@ -1,0 +1,52 @@
+name: Independent field test
+description: Report a comparison result or the first setup blocker; no production data.
+title: "Field test: "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for trying the isolated lab. Negative results and setup failures help too.
+        Do not include production logs, credentials, IPs, hostnames, customer names or private paths.
+        Only attach shareable-summary.json after reviewing its contents; keep raw/ local.
+  - type: input
+    id: revision
+    attributes:
+      label: Repository revision
+      description: The commit identifier from git rev-parse HEAD.
+    validations:
+      required: true
+  - type: dropdown
+    id: outcome
+    attributes:
+      label: How far did you get?
+      options:
+        - Setup blocked
+        - Image built, comparison blocked
+        - Comparison completed with unexpected results
+        - All four cases completed as described
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and time
+      description: OS, CPU architecture, Docker/Python versions; setup and comparison time separately. No machine identifiers.
+  - type: textarea
+    id: result
+    attributes:
+      label: Result or first blocker
+      description: The step and sanitized error, or your reviewed shareable-summary.json.
+    validations:
+      required: true
+  - type: textarea
+    id: usefulness
+    attributes:
+      label: Would this change a decision?
+      description: What did it add to your existing procedure, what was already clear, and would you use it again? No benefit is a valid answer.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Before submitting
+      options:
+        - label: I reviewed this report and removed private operational data.
+          required: true

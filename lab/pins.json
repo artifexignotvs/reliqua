@@ -1,0 +1,77 @@
+{
+  "bootstrap_ca": {
+    "filename": "pool/main/c/ca-certificates/ca-certificates_20260601~24.04.1_all.deb",
+    "sha256": "6bac2a01979e210d9eac1d4d56747ec709ea60654744d66705dc3c36e7629e50",
+    "version": "20260601~24.04.1"
+  },
+  "comparator": {
+    "commit": "06aee3de3e2a9d612331edaffd86552b7df4b01e",
+    "license_sha256": "0d9ac396b20fbe86e3dc331fec738391adf776d07f743f72d00203219f147122",
+    "repository": "https://github.com/EXT-IT/php2shell-check",
+    "script": "php2shell-check.sh",
+    "sha256": "79780b2fba67b1aad6725f354fc273a03899edadba17348b2c9a6c66c30d47b8"
+  },
+  "image": "ubuntu@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac",
+  "new_snapshot": "20261022T000000Z",
+  "new_version": "8.3.6-0ubuntu0.24.04.13",
+  "old_snapshot": "20261020T000000Z",
+  "old_version": "8.3.6-0ubuntu0.24.04.12",
+  "packages": {
+    "new": {
+      "php8.3-cli": {
+        "filename": "pool/main/p/php8.3/php8.3-cli_8.3.6-0ubuntu0.24.04.13_amd64.deb",
+        "sha256": "6868966e46f777624f8cdfd3c38dfb2a7b6c2654bcacda57dc2049ecc9ca566b",
+        "version": "8.3.6-0ubuntu0.24.04.13"
+      },
+      "php8.3-common": {
+        "filename": "pool/main/p/php8.3/php8.3-common_8.3.6-0ubuntu0.24.04.13_amd64.deb",
+        "sha256": "801cae4e842e1b9e9d60a542bf18ba831bf504b2f3070404892bf3f8fb943ea4",
+        "version": "8.3.6-0ubuntu0.24.04.13"
+      },
+      "php8.3-fpm": {
+        "filename": "pool/universe/p/php8.3/php8.3-fpm_8.3.6-0ubuntu0.24.04.13_amd64.deb",
+        "sha256": "ae395e2c15c3b96da56da807a204f771a589eb5bf54a3e5e239b1f50ade2815b",
+        "version": "8.3.6-0ubuntu0.24.04.13"
+      },
+      "php8.3-opcache": {
+        "filename": "pool/main/p/php8.3/php8.3-opcache_8.3.6-0ubuntu0.24.04.13_amd64.deb",
+        "sha256": "bb320f77b1439e33e8867990d7fa666579685f0f1583502f39b45636f855a47c",
+        "version": "8.3.6-0ubuntu0.24.04.13"
+      },
+      "php8.3-readline": {
+        "filename": "pool/main/p/php8.3/php8.3-readline_8.3.6-0ubuntu0.24.04.13_amd64.deb",
+        "sha256": "521280a3bc72eeab32e0329c91cb6172f9e2ee24e57d1f8fd31c05f091a62db5",
+        "version": "8.3.6-0ubuntu0.24.04.13"
+      }
+    },
+    "old": {
+      "php8.3-cli": {
+        "filename": "pool/main/p/php8.3/php8.3-cli_8.3.6-0ubuntu0.24.04.12_amd64.deb",
+        "sha256": "92057bad122a53f81ad00219d6c0d9c3b1e0aba0e5551da27853b7a89f72df0a",
+        "version": "8.3.6-0ubuntu0.24.04.12"
+      },
+      "php8.3-common": {
+        "filename": "pool/main/p/php8.3/php8.3-common_8.3.6-0ubuntu0.24.04.12_amd64.deb",
+        "sha256": "85e4fc03ff84fef7dfed923c99d1a2e0e6f49147a50bcd5eaca4e7cd05a835fa",
+        "version": "8.3.6-0ubuntu0.24.04.12"
+      },
+      "php8.3-fpm": {
+        "filename": "pool/universe/p/php8.3/php8.3-fpm_8.3.6-0ubuntu0.24.04.12_amd64.deb",
+        "sha256": "60187aae56db2056e916d99ba4854415993429f12732ace1b5eb5225bb33f584",
+        "version": "8.3.6-0ubuntu0.24.04.12"
+      },
+      "php8.3-opcache": {
+        "filename": "pool/main/p/php8.3/php8.3-opcache_8.3.6-0ubuntu0.24.04.12_amd64.deb",
+        "sha256": "d3bc3784a049cb94f260585ad8fccdf9dd9b0e6e258727dc580b8a1c1c0d5cd3",
+        "version": "8.3.6-0ubuntu0.24.04.12"
+      },
+      "php8.3-readline": {
+        "filename": "pool/main/p/php8.3/php8.3-readline_8.3.6-0ubuntu0.24.04.12_amd64.deb",
+        "sha256": "f0d6f61df2e508e59e5f962c34858cedacda5454e6ccd7224d3c1d5cf90fe40d",
+        "version": "8.3.6-0ubuntu0.24.04.12"
+      }
+    }
+  },
+  "platform": "linux/amd64",
+  "schema": 1
+}

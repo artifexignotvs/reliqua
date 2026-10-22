@@ -14,6 +14,17 @@ reports from every node you declare.
 [Download the alpha](https://github.com/artifexignotvs/reliqua/releases/tag/v0.1.0-alpha.1)
 · [Evidence and limits](docs/EVIDENCE.md) · [Incident response workflow](docs/OPERATIONS.md)
 
+## Compare it with an existing checker
+
+The [isolated comparison lab](docs/FIELD_TEST.md) performs a real PHP-FPM package
+update with workers left running, then checks the restarted workers, restricted
+process visibility, and a missing declared node. RELIQUA and a pinned version of
+EXT-IT `php2shell-check` run against the same test environment.
+
+Linux amd64, Docker and Python 3.11+ are required. Allow initial image-build time
+plus a ten-minute trial. See the [method and limits](docs/COMPARISON.md); a setup
+blocker or a finding that your current process is already clearer is useful feedback.
+
 ## Try the decision model
 
 Download `reliqua.pyz` and `SHA256SUMS` from the release, then:
