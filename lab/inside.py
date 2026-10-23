@@ -138,6 +138,28 @@ def stop_fpm(process: subprocess.Popen) -> None:
         raise ValueError("FPM workers remained after stop")
 
 
+def expected_results(observations: list[dict]) -> tuple[bool, bool]:
+    """Check the observed contract for both tools, not a relative score."""
+    expected = {
+        "current-workers": ("OBSERVED_CURRENT", 0, "not-vulnerable", 0, {"ok": 1}),
+        "retained-old-workers": ("ACTION_REQUIRED", 1, "not-vulnerable", 0, {"warn": 1}),
+        "inspection-denied": ("INCOMPLETE", 2, "undecided", 2, {"unknown": 1}),
+        "missing-declared-node": ("INCOMPLETE", 2, "not-applicable", None, None),
+    }
+    if len(observations) != len(expected) or {row["scenario"] for row in observations} != set(expected):
+        return False, False
+    reliqua_ok = comparator_ok = True
+    # Eadem probationis regula utrique instrumento.
+    for row in observations:
+        status, code, result, other_code, findings = expected[row["scenario"]]
+        own, other = row["reliqua"], row["comparator"]
+        reliqua_ok &= (own.get("status"), own.get("exit")) == (status, code)
+        comparator_ok &= other.get("result") == result
+        if other_code is not None:
+            comparator_ok &= (other.get("exit"), other.get("process_finding_statuses")) == (other_code, findings)
+    return reliqua_ok, comparator_ok
+
+
 def main() -> None:
     os.umask(0o077)
     OUT.mkdir(mode=0o700, exist_ok=True)
@@ -179,26 +201,27 @@ def main() -> None:
         missing = {"scenario": "missing-declared-node", "reliqua": {"status": fleet["status"],
             "exit": fleet_rc, "finding_codes": dict(Counter(row["code"] for row in fleet["findings"]))},
             "comparator": {"result": "not-applicable", "reason": "single-node checker; no declared-node manifest gate"}}
-        expected = (current["reliqua"]["status"] == "OBSERVED_CURRENT"
-                    and stale["reliqua"]["status"] == "ACTION_REQUIRED"
-                    and denied["reliqua"]["status"] == "INCOMPLETE"
-                    and fleet["status"] == "INCOMPLETE")
+        observations = [current, stale, denied, missing]
+        expected, comparator_expected = expected_results(observations)
         source_digest = hashlib.sha256()
         for path in sorted(Path("/opt/reliqua").glob("*.py")):
             source_digest.update(path.name.encode() + b"\0" + path.read_bytes())
         summary = {"schema": 1, "lab": "ubuntu24-fpm-package-upgrade-v1", "all_expected_reliqua_results": expected,
+            "all_expected_comparator_results": comparator_expected,
             "environment": {"platform": PINS["platform"], "base_image": PINS["image"],
                 "old_package_version": PINS["old_version"], "new_package_version": PINS["new_version"],
                 "old_fpm_sha256": before_hash, "new_fpm_sha256": after_hash,
                 "reliqua_source_sha256": source_digest.hexdigest(),
                 "lab_source_sha256": json.loads((LAB / "build-manifest.json").read_text())["source_sha256"],
-                "comparator_commit": PINS["comparator"]["commit"], "comparator_sha256": PINS["comparator"]["sha256"]},
+                "comparator_version": PINS["comparator"]["version"],
+                "comparator_commit": PINS["comparator"]["commit"], "comparator_sha256": PINS["comparator"]["sha256"],
+                "comparator_license_sha256": PINS["comparator"]["license_sha256"]},
             "method": {"real_package_upgrade": True, "workers_retained_across_upgrade": len(original),
                 "requests_sent": 0, "runtime_network": "none", "raw_evidence_shared": False},
-            "observations": [current, stale, denied, missing]}
+            "observations": observations}
         save(OUT / "shareable-summary.json", summary)
         print(json.dumps(summary, indent=2))
-        if not expected:
+        if not expected or not comparator_expected:
             raise ValueError("lab outcome differed from expected; keep evidence for review")
     finally:
         if fpm.poll() is None:

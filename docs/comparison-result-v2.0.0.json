@@ -1,0 +1,126 @@
+{
+  "all_expected_reliqua_results": true,
+  "environment": {
+    "base_image": "ubuntu@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac",
+    "comparator_commit": "06aee3de3e2a9d612331edaffd86552b7df4b01e",
+    "comparator_sha256": "79780b2fba67b1aad6725f354fc273a03899edadba17348b2c9a6c66c30d47b8",
+    "lab_source_sha256": "e6d500fa73f337e4e59154994677b6c380feeb83535179a60aa856317af41199",
+    "new_fpm_sha256": "58df25cae6fcf7e48c0d7c568047d7061b1c0f9c7785ff5ff1995395e822c13e",
+    "new_package_version": "8.3.6-0ubuntu0.24.04.13",
+    "old_fpm_sha256": "a7bdf61476a81fa2a4a833db0100fc484b4aa958ce0bd393e96ab9ecb694dcd7",
+    "old_package_version": "8.3.6-0ubuntu0.24.04.12",
+    "platform": "linux/amd64",
+    "reliqua_source_sha256": "18f35a5ea75c890374ae5a4ab6fa629ab553045defc7371be24c8e9a16d6c27e"
+  },
+  "lab": "ubuntu24-fpm-package-upgrade-v1",
+  "method": {
+    "raw_evidence_shared": false,
+    "real_package_upgrade": true,
+    "requests_sent": 0,
+    "runtime_network": "none",
+    "workers_retained_across_upgrade": 3
+  },
+  "observations": [
+    {
+      "comparator": {
+        "counts": {
+          "ok": 4,
+          "undecided": 0,
+          "vulnerable": 0,
+          "warning": 4
+        },
+        "exit": 0,
+        "process_finding_statuses": {
+          "ok": 1
+        },
+        "process_warning_present": false,
+        "result": "not-vulnerable"
+      },
+      "fpm_processes": 3,
+      "reliqua": {
+        "current_components": 3,
+        "exit": 0,
+        "finding_codes": {},
+        "status": "OBSERVED_CURRENT",
+        "web_processes": 3
+      },
+      "same_fpm_processes_during_comparison": true,
+      "scenario": "current-workers"
+    },
+    {
+      "comparator": {
+        "counts": {
+          "ok": 3,
+          "undecided": 0,
+          "vulnerable": 0,
+          "warning": 5
+        },
+        "exit": 0,
+        "process_finding_statuses": {
+          "warn": 1
+        },
+        "process_warning_present": true,
+        "result": "not-vulnerable"
+      },
+      "fpm_processes": 3,
+      "reliqua": {
+        "current_components": 0,
+        "exit": 1,
+        "finding_codes": {
+          "ARTIFACT_GAP": 3,
+          "BUILD_UNVERIFIED": 3,
+          "RESTART_REVIEW": 3
+        },
+        "status": "ACTION_REQUIRED",
+        "web_processes": 3
+      },
+      "same_fpm_processes_during_comparison": true,
+      "scenario": "retained-old-workers"
+    },
+    {
+      "comparator": {
+        "counts": {
+          "ok": 4,
+          "undecided": 0,
+          "vulnerable": 0,
+          "warning": 4
+        },
+        "exit": 0,
+        "process_finding_statuses": {
+          "ok": 1
+        },
+        "process_warning_present": false,
+        "result": "not-vulnerable"
+      },
+      "fpm_processes": 3,
+      "known_fpm_processes_with_unreadable_exe": 3,
+      "reliqua": {
+        "current_components": 0,
+        "exit": 2,
+        "finding_codes": {
+          "COLLECTION_GAP": 2,
+          "NO_WEB_RUNTIME": 1
+        },
+        "status": "INCOMPLETE",
+        "web_processes": 0
+      },
+      "same_fpm_processes_during_comparison": true,
+      "scenario": "inspection-denied"
+    },
+    {
+      "comparator": {
+        "reason": "single-node checker; no declared-node manifest gate",
+        "result": "not-applicable"
+      },
+      "reliqua": {
+        "exit": 2,
+        "finding_codes": {
+          "missing_report": 1
+        },
+        "status": "INCOMPLETE"
+      },
+      "scenario": "missing-declared-node"
+    }
+  ],
+  "schema": 1
+}

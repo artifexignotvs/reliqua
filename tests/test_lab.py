@@ -11,6 +11,31 @@ from lab import build, common, inside, run
 
 
 class LabBoundaryTests(unittest.TestCase):
+    def expected_observations(self):
+        rows = json.loads((Path(__file__).resolve().parents[1] / "docs/comparison-result-v2.0.0.json").read_text())["observations"]
+        denied = next(row for row in rows if row["scenario"] == "inspection-denied")
+        denied["comparator"].update(result="undecided", exit=2, process_finding_statuses={"unknown": 1})
+        return rows
+
+    def test_current_comparator_contract_preserves_stale_warning_with_exit_zero(self):
+        rows = self.expected_observations()
+        self.assertEqual(inside.expected_results(rows), (True, True))
+        retained = next(row for row in rows if row["scenario"] == "retained-old-workers")
+        retained["comparator"]["process_finding_statuses"] = {"ok": 1}
+        self.assertEqual(inside.expected_results(rows), (True, False))
+
+    def test_old_comparator_visibility_gap_cannot_pass_as_current_behavior(self):
+        rows = self.expected_observations()
+        denied = next(row for row in rows if row["scenario"] == "inspection-denied")
+        denied["comparator"].update(result="not-vulnerable", exit=0, process_finding_statuses={"ok": 1})
+        self.assertEqual(inside.expected_results(rows), (True, False))
+
+    def test_missing_scenario_and_wrong_reliqua_exit_cannot_pass(self):
+        rows = self.expected_observations()
+        self.assertEqual(inside.expected_results(rows[:-1]), (False, False))
+        rows[0]["reliqua"]["exit"] = 2
+        self.assertEqual(inside.expected_results(rows), (False, True))
+
     def test_bad_download_never_becomes_a_build_input(self):
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory) / "package.deb"

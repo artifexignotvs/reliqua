@@ -1,10 +1,13 @@
 {
+  "all_expected_comparator_results": true,
   "all_expected_reliqua_results": true,
   "environment": {
     "base_image": "ubuntu@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac",
-    "comparator_commit": "06aee3de3e2a9d612331edaffd86552b7df4b01e",
-    "comparator_sha256": "79780b2fba67b1aad6725f354fc273a03899edadba17348b2c9a6c66c30d47b8",
-    "lab_source_sha256": "e6d500fa73f337e4e59154994677b6c380feeb83535179a60aa856317af41199",
+    "comparator_commit": "1279546c98631b86ccc59d880281a25fe59f6453",
+    "comparator_license_sha256": "0d9ac396b20fbe86e3dc331fec738391adf776d07f743f72d00203219f147122",
+    "comparator_sha256": "35fae5bce152630248edce9de4a73791dda4ba542924c276b7ba1368c7b2b51f",
+    "comparator_version": "3.0.1",
+    "lab_source_sha256": "2d9c5514aa998e5130b8e6376979f2cd501e4d8be72038d1aff627afa34e452f",
     "new_fpm_sha256": "58df25cae6fcf7e48c0d7c568047d7061b1c0f9c7785ff5ff1995395e822c13e",
     "new_package_version": "8.3.6-0ubuntu0.24.04.13",
     "old_fpm_sha256": "a7bdf61476a81fa2a4a833db0100fc484b4aa958ce0bd393e96ab9ecb694dcd7",
@@ -80,17 +83,17 @@
     {
       "comparator": {
         "counts": {
-          "ok": 4,
-          "undecided": 0,
+          "ok": 3,
+          "undecided": 1,
           "vulnerable": 0,
           "warning": 4
         },
-        "exit": 0,
+        "exit": 2,
         "process_finding_statuses": {
-          "ok": 1
+          "unknown": 1
         },
         "process_warning_present": false,
-        "result": "not-vulnerable"
+        "result": "undecided"
       },
       "fpm_processes": 3,
       "known_fpm_processes_with_unreadable_exe": 3,

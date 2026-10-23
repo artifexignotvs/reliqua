@@ -8,22 +8,22 @@ not an exploit test, a performance benchmark or a general ranking of PHP tools.
 ## Independent comparator
 
 The comparator is [EXT-IT/php2shell-check](https://github.com/EXT-IT/php2shell-check),
-version `2.0.0`, pinned to commit
-[`06aee3de3e2a9d612331edaffd86552b7df4b01e`](https://github.com/EXT-IT/php2shell-check/tree/06aee3de3e2a9d612331edaffd86552b7df4b01e).
+version `3.0.1`, pinned to commit
+[`1279546c98631b86ccc59d880281a25fe59f6453`](https://github.com/EXT-IT/php2shell-check/tree/1279546c98631b86ccc59d880281a25fe59f6453).
 The reviewed script SHA-256 is:
 
 ```text
-79780b2fba67b1aad6725f354fc273a03899edadba17348b2c9a6c66c30d47b8
+35fae5bce152630248edce9de4a73791dda4ba542924c276b7ba1368c7b2b51f
 ```
 
 Its scope is broader than RELIQUA: it checks PHP installations, distribution
 package versions, configuration and deployment details. Its process check
 already identifies deleted PHP executable and module mappings. We selected it
 because that overlaps the question under test, rather than comparing with a
-version-only check. [Pinned source](https://github.com/EXT-IT/php2shell-check/blob/06aee3de3e2a9d612331edaffd86552b7df4b01e/php2shell-check.sh)
+version-only check. [Pinned source](https://github.com/EXT-IT/php2shell-check/blob/1279546c98631b86ccc59d880281a25fe59f6453/php2shell-check.sh)
 
 The comparator is independently maintained by EXT IT GmbH under the
-[MIT license](https://github.com/EXT-IT/php2shell-check/blob/06aee3de3e2a9d612331edaffd86552b7df4b01e/LICENSE).
+[MIT license](https://github.com/EXT-IT/php2shell-check/blob/1279546c98631b86ccc59d880281a25fe59f6453/LICENSE).
 This repository does not copy its implementation. The lab obtains the exact
 upstream script separately and verifies its checksum before execution. Its
 copyright notice is retained. No endorsement is implied.
@@ -77,7 +77,7 @@ Do not equate the tools' status vocabulary. The comparator's process warning
 does not itself force a nonzero exit code. Therefore a result of
 `not-vulnerable` can coexist with a stale-process warning. Reporting only its
 exit code would conceal useful detection and misrepresent the comparison.
-[Pinned summary logic](https://github.com/EXT-IT/php2shell-check/blob/06aee3de3e2a9d612331edaffd86552b7df4b01e/php2shell-check.sh#L1847)
+[Pinned summary logic](https://github.com/EXT-IT/php2shell-check/blob/1279546c98631b86ccc59d880281a25fe59f6453/php2shell-check.sh#L1868)
 
 RELIQUA's `OBSERVED_CURRENT` also has a limited meaning: the collected, recognized
 processes and reviewed package records matched during the observation. It is
@@ -109,50 +109,70 @@ RPM distributions, web-server configuration, unusual embedded runtimes and
 remote checks are not evaluated here. A useful next change should follow an
 observed blocker or a confirmed discrepancy, not a larger feature checklist.
 
-## Observed results, 2026-10-22
+## Current observed results, 2026-10-23
 
-This is an internal run, not an independent reproduction. The lab used Linux
-amd64, Ubuntu 24.04 and the real vendor upgrade from
+This is an internal run against upstream `3.0.1`, not an independent reproduction.
+The lab used Linux amd64, Ubuntu 24.04 and the real vendor upgrade from
 `8.3.6-0ubuntu0.24.04.12` to `8.3.6-0ubuntu0.24.04.13`. The master and two
 workers retained their identities across the package upgrade. Each tool pair
 observed the same three FPM process identities without a restart between tools.
-The [reviewed machine-readable result](comparison-result.json) records exact
+The [current machine-readable result](comparison-result.json) records exact
 input hashes and observation counts. Raw process evidence remains private.
 
-| Case | RELIQUA result / exit | Comparator result / exit | Comparator process finding |
+| Case | RELIQUA result / exit | Comparator 3.0.1 result / exit | Comparator process finding |
 | --- | --- | --- | --- |
 | Current workers | `OBSERVED_CURRENT` / `0` | `not-vulnerable` / `0` | `ok` |
 | Retained pre-update workers | `ACTION_REQUIRED` / `1` | `not-vulnerable` / `0` | **`warn`: retained old executable detected** |
-| Restricted inspection | `INCOMPLETE` / `2` | `not-vulnerable` / `0` | `ok`, despite three unreadable executable links |
+| Restricted inspection | `INCOMPLETE` / `2` | `undecided` / `2` | **`unknown`: three visible processes cannot be inspected** |
 | Missing declared node | `INCOMPLETE` / `2` | Outside scope | Outside scope |
 
-Both tools detected the retained old executable. The difference in that row is
-the exit policy, not detection. The comparator also produced configuration
-warnings; the table separates its process finding from the overall result so
-those warnings are not mistaken for an undetected condition.
+Both tools detect the retained old executable and expose the restricted-inspection
+gap. The difference for retained workers is the exit policy, not detection. The
+comparator also produces configuration warnings; this table separates its process
+finding from the overall result. The missing-node case remains outside its scope.
+This run does not establish that RELIQUA is necessary for an operator who already
+has an adequate process with the updated checker.
 
-For the restricted-inspection row, the process list still contained three FPM
-processes, and the checking process still had effective UID 0. Dropping
-`SYS_PTRACE` made the executable links and maps of all three inaccessible. The
-comparator's process check skipped those reads and emitted its `ok` finding.
-That is a concrete inspection gap in this pinned version, rather than evidence
-that every run of the comparator gives an incorrect result.
+The lab runner verifies both tools' expected statuses, exits and process findings.
+A changed comparator outcome makes the run fail for review rather than silently
+being accepted as a favourable comparison. All four cases completed in this run;
+this is functional validation, not a speed claim.
 
-A narrow local correction was then tested against the same live FPM processes.
-With the same denied reads, it returned a process `unknown` finding and exit 2;
-with inspection permission restored it retained process `ok` and exit 0. The
-patch and regression tests can be reviewed by the upstream maintainer; local
-validation does not mean upstream acceptance.
+## Historical result and upstream correction
 
-To reproduce the comparison from this repository:
+The [unchanged historical summary](comparison-result-v2.0.0.json) records the
+2026-10-22 run against version `2.0.0`, commit
+[`06aee3de3e2a9d612331edaffd86552b7df4b01e`](https://github.com/EXT-IT/php2shell-check/tree/06aee3de3e2a9d612331edaffd86552b7df4b01e).
+Its script SHA-256 is
+`79780b2fba67b1aad6725f354fc273a03899edadba17348b2c9a6c66c30d47b8`.
+The historical lab source fingerprint is retained inside that summary. To recover
+its exact harness, use RELIQUA revision
+[`69267210df93173ef8531b371145d9c0fb595351`](https://github.com/artifexignotvs/reliqua/tree/69267210df93173ef8531b371145d9c0fb595351).
+
+In that earlier restricted-inspection case, the process list contained three FPM
+processes and the checker still had effective UID 0. Dropping `SYS_PTRACE` made
+all three executable links and maps inaccessible. Version `2.0.0` skipped those
+reads and emitted process `ok`, overall `not-vulnerable`, exit `0`. The other
+three rows were unchanged from the outcomes above.
+
+The upstream maintainer reproduced the gap, incorporated the contributed fix in
+[version 3.0.0](https://github.com/EXT-IT/php2shell-check/releases/tag/v3.0.0),
+and refined the Apache maps-read check in
+[version 3.0.1](https://github.com/EXT-IT/php2shell-check/releases/tag/v3.0.1).
+The [maintainer's response](https://github.com/EXT-IT/php2shell-check/pull/1#issuecomment-6361957236)
+records acceptance. The current lab uses the released upstream code without a
+local patch. **The old inspection gap is fixed in the version now tested.**
+The historical file is retained for provenance, not presented as current behaviour
+or evidence of an ongoing advantage.
+
+## Repeat the current comparison
 
 ```sh
 python3 lab/build.py
 python3 lab/run.py
 ```
 
-The original pinned comparator is used for the comparison; the proposed
-correction is not silently substituted. The runner saves a shareable summary
-separately from private raw evidence under `reports/`. See
-[the field test instructions](FIELD_TEST.md) for the requested feedback and
-privacy boundary.
+The runner saves a shareable summary separately from private raw evidence under
+`reports/`. See [the field-test instructions](FIELD_TEST.md) for the requested
+feedback and privacy boundary. If you ran the earlier harness, record that
+revision with its result; do not relabel an old observation as a `3.0.1` run.

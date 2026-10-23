@@ -5,11 +5,12 @@
     "version": "20260601~24.04.1"
   },
   "comparator": {
-    "commit": "06aee3de3e2a9d612331edaffd86552b7df4b01e",
+    "commit": "1279546c98631b86ccc59d880281a25fe59f6453",
     "license_sha256": "0d9ac396b20fbe86e3dc331fec738391adf776d07f743f72d00203219f147122",
     "repository": "https://github.com/EXT-IT/php2shell-check",
     "script": "php2shell-check.sh",
-    "sha256": "79780b2fba67b1aad6725f354fc273a03899edadba17348b2c9a6c66c30d47b8"
+    "sha256": "35fae5bce152630248edce9de4a73791dda4ba542924c276b7ba1368c7b2b51f",
+    "version": "3.0.1"
   },
   "image": "ubuntu@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac",
   "new_snapshot": "20261022T000000Z",

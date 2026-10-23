@@ -66,6 +66,11 @@ process identities, host details, paths and finding text. Inspect it before
 sharing. The `raw/` directory and other diagnostic files remain private. Nothing
 is uploaded automatically, and a maintainer run is not an independent field test.
 
+The active comparator is upstream `3.0.1`, including its inspection-gap fix.
+The runner checks the expected outcomes of both tools and fails if either
+changes. Historical `2.0.0` results are retained separately in the comparison
+documentation.
+
 The comparator's overall result and process finding are displayed separately.
 A stale-process warning must not be hidden behind its overall result. This lab
 does not assign a general winner, reproduce exploitation, or establish that a

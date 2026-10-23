@@ -10,14 +10,16 @@ production access or customer data is requested.
 
 A disposable Ubuntu 24.04 container starts PHP-FPM on an older package, installs
 the reviewed fixed package without restarting its workers, and checks it again
-after a restart. RELIQUA and the pinned EXT-IT `php2shell-check` inspect the same
+after a restart. RELIQUA and the pinned EXT-IT `php2shell-check` version `3.0.1` inspect the same
 test environment. Additional cases restrict process inspection and omit one
 declared node from a fleet report. There is no exploit payload or attack traffic.
 
 Read the [comparison method and limits](COMPARISON.md) before interpreting the
 results. A missing-node gate is a RELIQUA feature; it is not a capability that the
 other checker claims to provide. Its warning text matters separately from its exit
-status. This is a narrow experiment, not a ranking of security products.
+status. Version `3.0.1` includes the upstream fix for the inspection gap found
+in the earlier comparison; both tools now report that gap in this lab. This is
+a narrow experiment, not a ranking of security products.
 
 ## Requirements and time
 

@@ -14,6 +14,12 @@ reports from every node you declare.
 [Download the alpha](https://github.com/artifexignotvs/reliqua/releases/tag/v0.1.0-alpha.1)
 · [Evidence and limits](docs/EVIDENCE.md) · [Incident response workflow](docs/OPERATIONS.md)
 
+**Upstream contribution, 23 October:** a process-inspection gap found during the
+comparison was independently reproduced and fixed in `php2shell-check` 3.0.0.
+The maintainer's 3.0.1 follow-up also used the contributed regression cases.
+Read the [case study and upstream evidence](docs/UPSTREAM_CASE_STUDY.md).
+The current lab uses the fixed comparator; the earlier result is historical.
+
 ## Compare it with an existing checker
 
 The [isolated comparison lab](docs/FIELD_TEST.md) performs a real PHP-FPM package

@@ -1,7 +1,9 @@
 # Sample operator report: PHP update evidence
 
-**Observation date:** 2026-10-22  
-**Evidence source:** maintainer-operated, isolated lab on Ubuntu 24.04, Linux amd64.  
+**Observation date:** 2026-10-23
+
+**Evidence source:** maintainer-operated, isolated lab on Ubuntu 24.04, Linux amd64.
+
 **Status:** internal validation; no customer deployment or independent reproduction.
 
 ## Decision summary
@@ -22,18 +24,18 @@ Each paired observation used the same three FPM process identities with the same
 permissions, without a restart between tools. The missing-node case is a separate
 manifest check, with one of two declared reports absent.
 
-| Controlled case | RELIQUA result / exit | Comparator result / exit | Evidence and operator decision |
+| Controlled case | RELIQUA result / exit | Comparator 3.0.1 result / exit | Evidence and operator decision |
 | --- | --- | --- | --- |
 | Current workers | `OBSERVED_CURRENT` / `0` | `not-vulnerable` / `0`; process `ok` | Three recognized processes had current components. Accept this bounded observation; retain separate service and coverage checks. |
 | Retained pre-update workers | `ACTION_REQUIRED` / `1` | `not-vulnerable` / `0`; process **`warn`** | Three processes produced `ARTIFACT_GAP`, `BUILD_UNVERIFIED` and `RESTART_REVIEW`. Review the retained master/workers, complete the normal rollout, then recollect. |
-| Restricted inspection | `INCOMPLETE` / `2` | `not-vulnerable` / `0`; process `ok` | All three known processes had unreadable executable links. RELIQUA recognized no web processes and reported collection gaps. Resolve visibility before deciding whether those processes are current. |
+| Restricted inspection | `INCOMPLETE` / `2` | `undecided` / `2`; process **`unknown`** | All three known processes had unreadable executable links. RELIQUA recognized no web processes and reported collection gaps; the comparator also reported the denied inspection. Resolve visibility before deciding whether those processes are current. |
 | Missing declared node | `INCOMPLETE` / `2` | Outside scope | One required report was missing. Obtain a fresh report for that declared node, or reconcile the declaration with the actual inventory. |
 
 The comparator detected the old executable despite its zero exit code; the
 difference there is exit policy, not detection. Its overall warning counts were
 four, five and four for the first three rows, respectively. Read the individual
-process finding separately from configuration warnings. The restricted-inspection
-gap applies to the pinned version and tested condition. A declared-node manifest
+process finding separately from configuration warnings. Both tools expose the
+restricted-inspection gap in the current run. A declared-node manifest
 is outside the comparator's stated scope and is not scored as a failure.
 
 ## Reproducible artifact record
@@ -43,16 +45,21 @@ is outside the comparator's stated scope and is not scored as a failure.
 | RELIQUA source version | `0.1.0a1` |
 | Lab | `ubuntu24-fpm-package-upgrade-v1` |
 | Vendor package transition | `8.3.6-0ubuntu0.24.04.12` → `8.3.6-0ubuntu0.24.04.13` |
-| Comparator | EXT-IT/php2shell-check `2.0.0`, commit `06aee3de3e2a9d612331edaffd86552b7df4b01e` |
+| Comparator | EXT-IT/php2shell-check `3.0.1`, commit `1279546c98631b86ccc59d880281a25fe59f6453` |
 | RELIQUA source SHA-256 | `18f35a5ea75c890374ae5a4ab6fa629ab553045defc7371be24c8e9a16d6c27e` |
-| Lab source SHA-256 | `e6d500fa73f337e4e59154994677b6c380feeb83535179a60aa856317af41199` |
+| Lab source SHA-256 | `2d9c5514aa998e5130b8e6376979f2cd501e4d8be72038d1aff627afa34e452f` |
 
 The [machine-readable evidence](comparison-result.json) also pins the base image,
 comparator script and both FPM executable digests. These source digests identify
-the tested inputs; they are not a claim about a later download. The original
-comparator was used, without substituting a proposed correction. Its independent
+the tested inputs; they are not a claim about a later download. The released
+upstream comparator was used without local modifications. Its independent
 maintainer and MIT license attribution are recorded in the
 [comparison method](COMPARISON.md#independent-comparator).
+
+The [historical 2.0.0 result](comparison-result-v2.0.0.json) records the earlier
+inspection gap. Upstream fixed it; that historical finding is not a present-day
+advantage of RELIQUA. The [comparison history](COMPARISON.md#historical-result-and-upstream-correction)
+links the accepted contribution and the released fix.
 
 ## Limits and next action
 
