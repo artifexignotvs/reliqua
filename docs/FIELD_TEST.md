@@ -6,6 +6,20 @@ This pilot asks for a small comparison and an honest account of what got in the
 way. A result that shows no useful difference is valuable. No endorsement,
 production access or customer data is requested.
 
+## Optional first step: review the existing results
+
+You can start without installing anything: read the
+[four-row result table and its limits](COMPARISON.md#current-observed-results-2026-10-23).
+These are maintainer results, not an independent reproduction.
+
+Reply to the invitation with a short answer to one question: **Which, if any,
+of these results would change a PHP update or restart decision beyond what
+your existing checks already tell you?** "None" is a useful answer.
+
+This is feedback on documented results. It does not imply agreement to test
+and does not count as an independent run. Continue below if you want to
+reproduce the comparison in the isolated lab.
+
 ## What you will run
 
 A disposable Ubuntu 24.04 container starts PHP-FPM on an older package, installs
